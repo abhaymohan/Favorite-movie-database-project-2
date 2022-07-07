@@ -1,16 +1,57 @@
-const person = {
-    'name' : "abhay",
-    'age' : 20,
-    'hobbies' : ['sports','cooking'],
-    'greet' : () => {console.log(`hello ${person.name}`)}
+// variable and DOM node selection
+
+const addMovieBtn = document.getElementById('add-movie-btn');
+const searchBtn = document.getElementById('search-btn');
+
+const movies = [];
+
+// event handlers
+
+const renderMovies = () => {
+    const movieList = document.getElementById('movie-list');
+    
+    if(movies.length === 0)
+    {
+        movieList.classList.remove('visible');
+        return;
+    }else{
+        movieList.classList.add('visible');
+    }
+
+    movieList.innerHTML = '';
+
+    movies.forEach((movie)=>{
+        const movieEl = document.createElement('li');
+        movieEl.textContent = movie.info.title;
+        movieList.append(movieEl);
+    });
 };
 
+const addMovieHandler = () => {
+    const title = document.getElementById('title').value;
+    const extraName = document.getElementById('extra-name').value;
+    const extraValue = document.getElementById('extra-value').value;
+
+    if(title.trim() === '' ||
+    extraName.trim() === '' ||
+    extraValue.trim() === '')
+    {
+        return;
+    }
+
+    const newMovie = {
+        info : {
+            title,
+            [extraName] : extraValue
+        },
+        id : Math.random()
+    };
+
+    movies.push(newMovie);
+    renderMovies();
+ };
 
 
-delete person.age; // deletes the property from the object
+// event listeners
+ addMovieBtn.addEventListener('click',addMovieHandler);
 
-//person.age = undefined; // sets the property equal to undefined
-
-console.log(person);
-
-console.log(person[0]);
